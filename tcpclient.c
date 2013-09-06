@@ -41,12 +41,39 @@ int main(int argc, char *argv[])
     serv_addr.sin_port = htons(portno);
     if (connect(sockfd,(struct sockaddr *) &serv_addr,sizeof(serv_addr)) < 0) 
         error("ERROR connecting");
-    //printf("Please enter the message: ");
-    //bzero(buffer,256);
-    //fgets(buffer,255,stdin);
-    strcpy(buffer, argv[3]);
-    char array[] = { strlen(buffer), 150, 87, buffer };
-    n = write(sockfd,array,strlen(array));
+    bzero(buffer,256);
+
+    //TML
+    char len[5];
+    int length = strlen(argv[4]) + 5;
+    if (length <= 0xFFFF)
+      sprintf(&len[0], "%04x", length);
+    strcat(buffer, len);
+
+    //REQID TODO make this yourself (rand)
+    int x = 7;
+    char res[5]; // two bytes of hex = 4 characters, plus NULL terminator 
+    if (x <= 0xFFFF)
+        sprintf(&res[0], "%04x", x);
+    strcat(buffer, res);
+
+    //OP
+    x = atoi(argv[3]);
+    char op[3];
+    if (x == 0xAA || x == 0x55)
+        sprintf(&op[0], "%02x", x);
+    strcat(buffer, op);
+
+    //STRING
+    char* str = argv[4];
+    char* ascii[3];
+    int i = 0;
+    while(str[i]) {
+       sprintf(&ascii[0],"%02x",str[i++]);
+       strcat(buffer, ascii);
+    }
+
+    n = write(sockfd,buffer,strlen(buffer));
     if (n < 0) 
          error("ERROR writing to socket");
     bzero(buffer,256);
