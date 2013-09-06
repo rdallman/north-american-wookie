@@ -62,6 +62,8 @@ int main(int argc, char *argv[])
     char op[3];
     if (x == 0xAA || x == 0x55)
         sprintf(&op[0], "%02x", x);
+    else
+      error("invalid op");
     strcat(buffer, op);
 
     //STRING
