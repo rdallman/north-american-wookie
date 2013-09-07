@@ -37,7 +37,7 @@ class TCPHandler(SocketServer.BaseRequestHandler):
 if __name__ == "__main__":
 
 
-  HOST, PORT = sys.argv[1], int(sys.argv[2])
+  HOST, PORT =  '', int(sys.argv[1])
 
   server = SocketServer.TCPServer((HOST, PORT), TCPHandler)
 

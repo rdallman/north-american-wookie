@@ -75,14 +75,23 @@ int main(int argc, char *argv[])
        strcat(buffer, ascii);
     }
 
+    time_t t1, t2;
+    t1 = time(0);
+
+
     n = write(sockfd,buffer,strlen(buffer));
+    printf("Sent: %s\n",buffer);
     if (n < 0) 
          error("ERROR writing to socket");
     bzero(buffer,256);
     n = read(sockfd,buffer,255);
+
+    t2 = time(0);
+
     if (n < 0) 
          error("ERROR reading from socket");
-    printf("%s\n",buffer);
+    printf("Received: %s\n",buffer);
+    printf("Elapsed: %f\n", difftime(t2, t1));
     close(sockfd);
     return 0;
 }
