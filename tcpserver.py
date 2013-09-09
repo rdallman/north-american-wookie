@@ -7,7 +7,7 @@ class TCPHandler(SocketServer.BaseRequestHandler):
 
   def handle(self):
     msg = self.request.recv(1024)
-    print "{} wrote:".format(self.client_address[0])
+    #print "{} wrote:".format(self.client_address[0])
     print msg
 
     length = int(msg[0:2], 16) + int(msg[2:4], 16)

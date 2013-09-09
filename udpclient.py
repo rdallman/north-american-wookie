@@ -29,6 +29,6 @@ t1 = time.time()
 
 received = sock.recv(1024)
 
-print "Sent:     {}".format(hexstr)
-print "Received: {}".format(received)
+print "Sent:     "+hexstr
+print "Received: "+received
 print "Total Time: "+str((time.time() - t1) * 1000)
