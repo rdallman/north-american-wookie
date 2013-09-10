@@ -1,0 +1,17 @@
+Reed Allman, Maghen Smith, Josh Acklin
+Lab 1
+
+the code works
+
+for tcp:
+  python tcpserver.py 10024
+  gcc tcpclient.c -o tcp
+  ./tcp server port op string
+
+for udp:
+  gcc udpclient.c -o udp
+  ./udp 10024
+  python udpclient.py server port op string
+  
+
+
