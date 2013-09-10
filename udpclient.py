@@ -2,6 +2,7 @@ import socket
 import sys
 import binascii
 import time
+import array
 
 HOST, PORT = "", 9999
 
@@ -22,7 +23,7 @@ string = binascii.hexlify(data)
 
 hexstr = str(length)+str(id)+str(op)+str(string)
 
-byteary = bytearray.fromhex(hexstr)
+byteary = array.array('B', hexstr.decode("hex"))
 
 # SOCK_DGRAM is the socket type to use for UDP sockets
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
