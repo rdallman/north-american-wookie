@@ -7,11 +7,11 @@ class TCPHandler(SocketServer.BaseRequestHandler):
 
   def handle(self):
     msg = self.request.recv(1024)
-    #print "{} wrote:".format(self.client_address[0])
-    print msg
+    msg = binascii.hexlify(msg)
+    print "\nReceived: "+msg.strip()
 
-    length = int(msg[0:2], 16) + int(msg[2:4], 16)
-    rid = msg[4:8]
+    length = int(msg[0:4], 16)
+    rid = int(msg[4:8], 16)
     op = int(msg[8:10], 16)
     string = msg[10:].decode('hex')
     if op is 85:
@@ -23,7 +23,10 @@ class TCPHandler(SocketServer.BaseRequestHandler):
     else:
       numv = "Error, not a valid operation"
 
-    self.request.sendall(str(length)+str(rid)+str(numv))
+    reply = str(length)[0:2]+str(length)[2:4]+str(rid)[0:2]+str(rid)[2:4]+numv.decode('hex')
+  
+
+    self.request.sendall(str(reply))
 
   def vowels(self, string):
     vowels = "aeiouAEIOU"
