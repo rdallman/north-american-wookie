@@ -27,7 +27,7 @@ class TCPHandler(SocketServer.BaseRequestHandler):
     length = array.array('B', str(length).decode("hex"))
     rid = '%04X' %(rid)
     rid = array.array('B', str(rid).decode("hex"))
-    numv = array.array('B', numv.decode("hex"))
+    numv = array.array('B', str(numv).decode("hex"))
     reply = length + rid + numv
 
     self.request.sendall(reply)
