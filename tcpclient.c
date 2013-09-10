@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
     //TML
     char len[5];
     int length = strlen(argv[4]) + 5;
-    if (length <= 0xFFFF)
+    if (length <= 0xFFFF) 
       sprintf(&len[0], "%04x", length);
     strcat(buffer, len);
 
@@ -68,6 +68,7 @@ int main(int argc, char *argv[])
 
     //STRING
     char* str = argv[4];
+    char userstr[strlen(str)];
     char* ascii[3];
     int i = 0;
     while(str[i]) {
@@ -80,17 +81,45 @@ int main(int argc, char *argv[])
 
 
     n = write(sockfd,buffer,strlen(buffer));
-    printf("Sent: %s\n",buffer);
+    printf("Sent: %s\n",str);
     if (n < 0) 
          error("ERROR writing to socket");
     bzero(buffer,256);
     n = read(sockfd,buffer,255);
 
+    //message
+    char string[strlen(buffer)];
+    bzero(string, strlen(buffer));
+    char hex[strlen(buffer)];
+    bzero(hex, strlen(buffer));
+    strncpy(hex, buffer+8, strlen(buffer));
+    int realint;
+    if (x == 0xAA) {
+      char theint[3];
+      i = 0;
+      while (hex[i]) {
+        strncpy(theint, hex+i, 2);
+        realint = (int)strtol(theint, NULL, 16);
+        sprintf(&theint[0], "%c", realint);
+        strcat(string, theint);
+        i++;
+        i++;
+      }
+    } else if (x == 0x55) {
+      char theint[5];
+      strncpy(theint, hex, 4);
+      realint = (int)strtol(theint, NULL, 16);
+      sprintf(&theint[0], "%d", realint);
+      strcat(string, theint);
+    } else {
+      strcat(string, "INVALID OP");
+    }
+
     t2 = time(0);
 
     if (n < 0) 
          error("ERROR reading from socket");
-    printf("Received: %s\n",buffer);
+    printf("Received: %s\n",string);
     printf("Elapsed: %f\n", difftime(t2, t1));
     close(sockfd);
     return 0;

@@ -8,6 +8,7 @@ HOST, PORT = "", 9999
 HOST= sys.argv[1]
 PORT = int(sys.argv[2])
 op = int(sys.argv[3])
+intop = op
 data = sys.argv[4]
 
 # TML
@@ -29,6 +30,11 @@ t1 = time.time()
 
 received = sock.recv(1024)
 
-print "Sent:     "+hexstr
-print "Received: "+received
+print "Sent:     "+data
+
+if intop is 85:
+  print "Received: "+str(int(received[8:], 16))
+else:
+  print "Recieved: "+binascii.unhexlify(received[8:])
+
 print "Total Time: "+str((time.time() - t1) * 1000)
