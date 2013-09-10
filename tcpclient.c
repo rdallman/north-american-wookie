@@ -93,7 +93,7 @@ int main(int argc, char *argv[])
     int realint;
     if (x == 0xAA) {
       char theint[3];
-      i = 5;
+      i = 4;
       while (buffer[i]) {
         printf("%c", buffer[i]);
         i++;
