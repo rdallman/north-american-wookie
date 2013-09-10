@@ -1,6 +1,7 @@
 import SocketServer
 import binascii
 import sys
+import array
 
 class TCPHandler(SocketServer.BaseRequestHandler):
 
@@ -23,10 +24,13 @@ class TCPHandler(SocketServer.BaseRequestHandler):
     else:
       numv = "Error, not a valid operation"
 
-    reply = str(length)[0:2]+str(length)[2:4]+str(rid)[0:2]+str(rid)[2:4]+numv.decode('hex')
-  
+    length = array.array('B', str(length).decode("hex"))
+    rid = '%04X' %(rid)
+    rid = array.array('B', str(rid).decode("hex"))
+    numv = array.array('B', numv.decode("hex"))
+    reply = length + rid + numv
 
-    self.request.sendall(str(reply))
+    self.request.sendall(reply)
 
   def vowels(self, string):
     vowels = "aeiouAEIOU"
