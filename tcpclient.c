@@ -73,7 +73,7 @@ int main(int argc, char *argv[])
     char* str = argv[4];
     int i = 0;
     while(str[i]) {
-       buffer[i+4] = str[i++];
+       buffer[i+5] = str[i++];
     }
 
     time_t t1, t2;
