@@ -12,8 +12,11 @@ class TCPHandler(SocketServer.BaseRequestHandler):
     print "\nReceived: "+msg.strip()
 
     length = int(msg[0:4], 16)
+    print "\n"+str(length)
     rid = int(msg[4:8], 16)
+    print "\n"+str(rid)
     op = int(msg[8:10], 16)
+    print "\n"+str(op)
     string = msg[10:].decode('hex')
     if op is 85:
       numv = '%04X' %(int(self.vowels(string)))
